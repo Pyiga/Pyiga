@@ -1,0 +1,78 @@
+import tkinter as tk
+from gtts import gTTS
+import random
+import os
+
+class LanguageLearningApp:
+    def __init__(self, root):
+        # Initialize the main window
+        self.root = root
+        self.root.title("Language Learning App")
+
+        # Define language options and associated vocabulary
+        self.languages = {
+            'English': ['apple', 'banana', 'cat', 'dog', 'hello', 'goodbye'],
+            'Spanish': ['manzana', 'plátano', 'gato', 'perro', 'hola', 'adiós'],
+            'French': ['pomme', 'banane', 'chat', 'chien', 'bonjour', 'au revoir']
+            # Add more languages and corresponding vocabulary as needed
+        }
+
+        # Create a variable to store the selected language
+        self.language_var = tk.StringVar()
+        self.language_var.set("English")  # Default language is English
+
+        # Set up the GUI components
+        self.create_widgets()
+
+    def create_widgets(self):
+        # Language selection label
+        language_label = tk.Label(self.root, text="Select Language:")
+        language_label.pack()
+
+        # Dropdown menu for language selection
+        language_menu = tk.OptionMenu(self.root, self.language_var, *self.languages.keys())
+        language_menu.pack()
+
+        # Start button to initiate language learning
+        start_button = tk.Button(self.root, text="Start Learning", command=self.start_learning)
+        start_button.pack()
+
+    def play_voice(self, text, language='en'):
+        # Use gTTS to convert text to speech and play the voice
+        tts = gTTS(text=text, lang=language, slow=False)
+        tts.save("temp.mp3")
+        os.system("start temp.mp3")
+
+    def practice_vocabulary(self):
+        # Get the selected language from the dropdown menu
+        selected_language = self.language_var.get()
+        # Shuffle the vocabulary for a random order
+        vocabulary = self.languages[selected_language]
+        random.shuffle(vocabulary)
+
+        # Loop through each word in the vocabulary
+        for word in vocabulary:
+            # Play the voice for the current word
+            self.play_voice(word, language=selected_language.lower())
+
+            # Prompt the user for the correct pronunciation
+            user_input = input(f"What is the correct pronunciation of '{word}'? ").lower()
+
+            # Check if the user's input is correct
+            if user_input == word.lower():
+                print("Correct!")
+            else:
+                print(f"Wrong. The correct pronunciation is '{word}'. Try again.")
+
+    def start_learning(self):
+        # Initiate the vocabulary practice when the "Start Learning" button is clicked
+        self.practice_vocabulary()
+
+if __name__ == "__main__":
+    # Create the main Tkinter window
+    root = tk.Tk()
+    # Instantiate the LanguageLearningApp class with the main window as an argument
+    app = LanguageLearningApp(root)
+    # Start the Tkinter event loop
+    root.mainloop()
+
