@@ -1,4 +1,4 @@
-- 👋 Hi, I’m @Pyiga
+- 👋 Hi, I’m Yiga Paul
 - 👀 I’m interested in ...
 - 🌱 I’m currently learning ...python,machine learning,reverse engneering,android app dev,web development
 - 💞️ I’m looking to collaborate on ...python and web develoopment
